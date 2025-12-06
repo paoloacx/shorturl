@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acortador de URL</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .flash { color: red; }
+        .result { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 20px; }
+        input[type="text"], input[type="url"] { padding: 10px; width: 60%; margin-bottom: 10px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Acortador de URL</h1>
+    <nav>
+        <a href="/">Inicio</a> |
+        <a href="/stats">Estadísticas</a>
+    </nav>
+    <hr>
+
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <form method="post">
+        <label for="url">URL Original:</label><br>
+        <input type="url" name="url" placeholder="https://ejemplo.com" required
+               value="{{ request.form['url'] }}" style="width: 100%"><br>
+
+        <label for="custom_id">Código personalizado (opcional):</label><br>
+        <input type="text" name="custom_id" placeholder="ej: mi-app" value="{{ request.form['custom_id'] }}"><br>
+
+        <button type="submit">Acortar</button>
+    </form>
+
+    {% if short_url %}
+        <div class="result">
+            <p><strong>¡URL Acortada!</strong></p>
+            <p>Original: {{ original_url }}</p>
+            <p>Corta: <a href="{{ short_url }}" target="_blank">{{ short_url }}</a></p>
+        </div>
+    {% endif %}
+</body>
+</html>

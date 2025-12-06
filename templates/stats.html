@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - Acortador de URL</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Estadísticas de Clicks</h1>
+    <nav>
+        <a href="/">Inicio</a> |
+        <a href="/stats">Estadísticas</a>
+    </nav>
+    <hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>URL Corta</th>
+                <th>URL Original</th>
+                <th>Creada</th>
+                <th>Clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for url in urls %}
+                <tr>
+                    <td><a href="{{ url.short_url }}" target="_blank">{{ url.short_id }}</a></td>
+                    <td style="word-break: break-all;">{{ url.original_url }}</td>
+                    <td>{{ url.created }}</td>
+                    <td>{{ url.clicks }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
