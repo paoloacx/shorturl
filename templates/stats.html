@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - Acortador de URL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Estadísticas de Clicks</h1>
+            <nav>
+                <a href="/">Inicio</a>
+                <a href="/stats">Estadísticas</a>
+            </nav>
+        </header>
+
+        <div class="card">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>URL Corta</th>
+                            <th>URL Original</th>
+                            <th style="min-width: 100px;">Creada</th>
+                            <th style="text-align: center;">Clicks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for url in urls %}
+                        <tr>
+                            <td><a href="{{ url.short_url }}" target="_blank"
+                                    style="font-weight: bold; color: var(--primary-color); text-decoration: none;">{{
+                                    url.short_id }}</a></td>
+                            <td style="word-break: break-all; color: var(--text-muted);">{{ url.original_url }}</td>
+                            <td>{{ url.created }}</td>
+                            <td style="text-align: center; font-weight: bold;">{{ url.clicks }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px;">No hay URLs creadas todavía.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/" style="text-decoration: none;">
+                <button type="button" style="background-color: #6c757d;">← Volver al Inicio</button>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>

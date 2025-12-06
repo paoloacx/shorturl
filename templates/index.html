@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acortador de URL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✂️ Acortador de URL</h1>
+            <nav>
+                <a href="/">Inicio</a>
+                <a href="/stats">Estadísticas</a>
+            </nav>
+        </header>
+
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+
+        <div class="card">
+            <form method="post">
+                <div>
+                    <label for="url">URL Original</label>
+                    <input type="url" name="url" id="url" placeholder="https://ejemplo.com/pagina-muy-larga" required
+                           value="{{ request.form['url'] }}" style="width: 100%; box-sizing: border-box;">
+                </div>
+
+                <div>
+                    <label for="custom_id">Código personalizado (Opcional)</label>
+                    <input type="text" name="custom_id" id="custom_id" placeholder="ej: mi-enlace" value="{{ request.form['custom_id'] }}" style="width: 100%; box-sizing: border-box;">
+                    <small style="color: grey;">Deja esto en blanco para generar uno aleatorio.</small>
+                </div>
+
+                <div style="text-align: center; margin-top: 10px;">
+                    <button type="submit">✨ Acortar URL</button>
+                </div>
+            </form>
+        </div>
+
+        {% if short_url %}
+            <div class="result card">
+                <p><strong>¡Tu URL ha sido acortada con éxito!</strong></p>
+                <p class="text-muted" style="font-size: 0.9em; word-break: break-all;">{{ original_url }}</p>
+                
+                <div class="short-url-container">
+                    <a href="{{ short_url }}" target="_blank" class="short-url-link" id="shortUrl">{{ short_url }}</a>
+                    <button class="copy-btn" onclick="copyToClipboard()">Copiar</button>
+                </div>
+            </div>
+
+            <script>
+                function copyToClipboard() {
+                    var copyText = document.getElementById("shortUrl").href;
+                    navigator.clipboard.writeText(copyText).then(function() {
+                        var btn = document.querySelector('.copy-btn');
+                        btn.textContent = '¡Copiado!';
+                        setTimeout(function() {
+                            btn.textContent = 'Copiar';
+                        }, 2000);
+                    }, function(err) {
+                        console.error('Error al copiar: ', err);
+                    });
+                }
+            </script>
+        {% endif %}
+    </div>
+</body>
+</html>
